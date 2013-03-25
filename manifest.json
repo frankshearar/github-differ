@@ -1,0 +1,14 @@
+{
+  "name": "GitHub Differ",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "Allow you to request diffs between arbitrary commits in some branch.",
+  "content_scripts": [
+    {
+      "matches": [
+          "https://github.com/*/*/commits/*"
+      ],
+      "js": ["src/add-diff-buttons.js"]
+    }
+  ]
+}
