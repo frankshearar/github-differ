@@ -1,10 +1,8 @@
 var commits = document.getElementsByClassName('commit-links');
 
 var foreach = Array.prototype.forEach;
-var i = 0;
 foreach.call(commits, function(commit) {
 	addCheckbox(commit);
-	i = i + 1;
 });
 
 function addCheckbox(commitLinkNode) {
