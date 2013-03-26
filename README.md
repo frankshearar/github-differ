@@ -1,7 +1,17 @@
-github-planner
+github-differ
 --------------
 
-GitHub Planner decorates the commits in the Commits pane with little checkboxes. Select any two checkboxes and you'll see the diff between those two commits. 'Nuff said.
+GitHub Differ decorates the commits in the GitHub Commits pane with little checkboxes. Select any two checkboxes and you'll see the diff between those two commits. 'Nuff said.
+
+To install it,
+
+- Clone the repo
+- Fire up Chrome
+- Go to `chrome://settings/extensions`
+- Check the "Developer mode" box
+- Click "Load unpacked extension..."
+- Navigate to your checked out clone
+- Profit!
 
 Licence
 -------
