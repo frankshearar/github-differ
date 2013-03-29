@@ -1,7 +1,7 @@
 github-differ
 --------------
 
-GitHub Differ decorates the commits in the GitHub Commits pane with little checkboxes. Select any two checkboxes and you'll see the diff between those two commits. 'Nuff said.
+GitHub Differ decorates the commits in the various GitHub Commits pane with little checkboxes. Select any two checkboxes and you'll see the diff between those two commits. 'Nuff said.
 
 To install it,
 
