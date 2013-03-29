@@ -1,17 +1,28 @@
+var onPullRequestCommitPage = document.URL.indexOf("/pull/") != -1;
+
 var commits = document.getElementsByClassName('commit-links');
+var pullCommits = document.getElementsByClassName('commit');
 
 var foreach = Array.prototype.forEach;
 foreach.call(commits, function(commit) {
-	addCheckbox(commit);
+	addCheckbox(commit, commit.children[0].attributes['data-clipboard-text'].value, true);
+});
+foreach.call(pullCommits, function(node) {
+	var messageNode = node.children[2];
+	var codeNode = messageNode.children[1];
+	var commitRef = node.attributes['data-channel'].value.split(":")[2];
+	addCheckbox(messageNode, commitRef, false);
 });
 
-function addCheckbox(commitLinkNode) {
-    var ref = commitLinkNode.children[0].attributes['data-clipboard-text'].value;
-
+function addCheckbox(commitLinkNode, ref, floatLeft) {
     var container = document.createElement('span');
     container.className = 'commit-selector';
-    container.style.float = 'left';
     container.style.marginTop = '5px';
+    if (floatLeft) {
+	container.style.float = 'left';
+    } else {
+	container.style.float = 'right';
+    }
 
     var input = document.createElement('input');
     input.type = 'checkbox';
@@ -33,13 +44,20 @@ function compareDiffs(event) {
 	if (selectedDiffs.length == 2) {
 	    var firstCommit = selectedDiffs[0].children[0].value;
 	    var secondCommit = selectedDiffs[1].children[0].value;
-	    window.location = compareUrl(document.URL, firstCommit, secondCommit);
+	    if (onPullRequestCommitPage) {
+		// commits in a Pull Request's Commits tab have time travelling DOWN
+		window.location = compareUrl(document.URL, secondCommit ,firstCommit);
+	    } else {
+		// commits in a Pull Request's Commits tab have time travelling UP
+		window.location = compareUrl(document.URL, firstCommit, secondCommit);
+	    }
 	}
     }
 }
 
 function compareUrl(baseUrl, firstCommit, secondCommit) {
-    var base = baseUrl.substr(0, baseUrl.lastIndexOf('/'));
-    base = base.substr(0, base.lastIndexOf('/'));
-    return base + "/compare/" + secondCommit + "..." + firstCommit;
+    var base = baseUrl.substring("https://".length, baseUrl.length);
+    var tokens = base.split("/");
+    var url = "https://" + tokens[0] + "/" + tokens[1] + "/" + tokens[2] + "/compare/" + secondCommit + "..." + firstCommit;
+    return url;
 }
