@@ -6,8 +6,8 @@
   "content_scripts": [
     {
       "matches": [
-          "https://github.com/*/*/commits/*",
-          "https://github.com/*/*/*/commits"
+          "https://github.com/*/commits",
+          "https://github.com/*/commits/*"
       ],
       "js": ["src/add-diff-buttons.js"]
     }
