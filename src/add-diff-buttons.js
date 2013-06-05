@@ -46,7 +46,7 @@ function compareDiffs(event) {
 	    var secondCommit = selectedDiffs[1].children[0].value;
 	    if (onPullRequestCommitPage) {
 		// commits in a Pull Request's Commits tab have time travelling DOWN
-		window.location = compareUrl(document.URL, secondCommit ,firstCommit);
+		window.location = compareUrl(document.URL, secondCommit, firstCommit);
 	    } else {
 		// commits in a Pull Request's Commits tab have time travelling UP
 		window.location = compareUrl(document.URL, firstCommit, secondCommit);
