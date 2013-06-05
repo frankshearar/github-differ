@@ -1,4 +1,5 @@
 var onPullRequestCommitPage = document.URL.indexOf("/pull/") != -1;
+var onComparePage = document.URL.indexOf("/compare/") != -1;
 
 var commits = document.getElementsByClassName('commit-links');
 var pullCommits = document.getElementsByClassName('commit');
@@ -10,7 +11,14 @@ foreach.call(commits, function(commit) {
 foreach.call(pullCommits, function(node) {
 	var messageNode = node.children[2];
 	var codeNode = messageNode.children[1];
-	var commitRef = node.attributes['data-channel'].value.split(":")[2];
+	var commitRef = '';
+	if (onComparePage) {
+		var metaNode = node.children[3];
+		var tokens = metaNode.children[0].children[0].attributes['href'].value.split("/");
+		commitRef = tokens[tokens.length - 1];
+	} else {
+		commitRef = node.attributes['data-channel'].value.split(":")[2];
+	}
 	addCheckbox(messageNode, commitRef, false);
 });
 
@@ -44,7 +52,7 @@ function compareDiffs(event) {
 	if (selectedDiffs.length == 2) {
 	    var firstCommit = selectedDiffs[0].children[0].value;
 	    var secondCommit = selectedDiffs[1].children[0].value;
-	    if (onPullRequestCommitPage) {
+	    if (onPullRequestCommitPage || onComparePage) {
 		// commits in a Pull Request's Commits tab have time travelling DOWN
 		window.location = compareUrl(document.URL, secondCommit, firstCommit);
 	    } else {
