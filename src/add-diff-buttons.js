@@ -6,20 +6,20 @@ var pullCommits = document.getElementsByClassName('commit');
 
 var foreach = Array.prototype.forEach;
 foreach.call(commits, function(commit) {
-	addCheckbox(commit, commit.children[0].attributes['data-clipboard-text'].value, true);
+    addCheckbox(commit, commit.children[0].attributes['data-clipboard-text'].value, true);
 });
 foreach.call(pullCommits, function(node) {
-	var messageNode = node.children[2];
-	var codeNode = messageNode.children[1];
-	var commitRef = '';
-	if (onComparePage) {
-		var metaNode = node.children[3];
-		var tokens = metaNode.children[0].children[0].attributes['href'].value.split("/");
-		commitRef = tokens[tokens.length - 1];
-	} else {
-		commitRef = node.attributes['data-channel'].value.split(":")[2];
-	}
-	addCheckbox(messageNode, commitRef, false);
+    var messageNode = node.children[2];
+    var codeNode = messageNode.children[1];
+    var commitRef = '';
+    if (onComparePage) {
+        var metaNode = node.children[3];
+        var tokens = metaNode.children[0].children[0].attributes['href'].value.split("/");
+        commitRef = tokens[tokens.length - 1];
+    } else {
+        commitRef = node.attributes['data-channel'].value.split(":")[2];
+    }
+    addCheckbox(messageNode, commitRef, false);
 });
 
 function addCheckbox(commitLinkNode, ref, floatLeft) {
@@ -27,9 +27,9 @@ function addCheckbox(commitLinkNode, ref, floatLeft) {
     container.className = 'commit-selector';
     container.style.marginTop = '5px';
     if (floatLeft) {
-	container.style.float = 'left';
+        container.style.float = 'left';
     } else {
-	container.style.float = 'right';
+        container.style.float = 'right';
     }
 
     var input = document.createElement('input');
@@ -44,22 +44,22 @@ function addCheckbox(commitLinkNode, ref, floatLeft) {
 
 function compareDiffs(event) {
     if (event.currentTarget.checked) {
-	var filter = Array.prototype.filter;
-	var selectedDiffs = filter.call(document.getElementsByClassName('commit-selector'),
-					function(node) {
-					    return node.children[0].checked
-					});
-	if (selectedDiffs.length == 2) {
-	    var firstCommit = selectedDiffs[0].children[0].value;
-	    var secondCommit = selectedDiffs[1].children[0].value;
-	    if (onPullRequestCommitPage || onComparePage) {
-		// commits in a Pull Request's Commits tab have time travelling DOWN
-		window.location = compareUrl(document.URL, secondCommit, firstCommit);
-	    } else {
-		// commits in a Pull Request's Commits tab have time travelling UP
-		window.location = compareUrl(document.URL, firstCommit, secondCommit);
-	    }
-	}
+        var filter = Array.prototype.filter;
+        var selectedDiffs = filter.call(document.getElementsByClassName('commit-selector'),
+                                        function(node) {
+                                            return node.children[0].checked
+                                        });
+        if (selectedDiffs.length == 2) {
+            var firstCommit = selectedDiffs[0].children[0].value;
+            var secondCommit = selectedDiffs[1].children[0].value;
+            if (onPullRequestCommitPage || onComparePage) {
+                // commits in a Pull Request's Commits tab have time travelling DOWN
+                window.location = compareUrl(document.URL, secondCommit, firstCommit);
+            } else {
+                // commits in a Pull Request's Commits tab have time travelling UP
+                window.location = compareUrl(document.URL, firstCommit, secondCommit);
+            }
+        }
     }
 }
 
