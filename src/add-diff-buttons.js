@@ -80,8 +80,8 @@ function compareDiffs(event) {
     if (event.currentTarget.checked) {
         var selectedDiffs = getSelectedCommits();
         if (selectedDiffs.length == 2) {
-            var firstCommit = selectedDiffs[0].children[0].value;
-            var secondCommit = selectedDiffs[1].children[0].value;
+            var firstCommit = selectedDiffs[0];
+            var secondCommit = selectedDiffs[1];
             if (onPullRequestCommitPage || onComparePage) {
                 // commits in a Pull Request's Commits tab have time travelling DOWN
                 window.location = compareUrl(document.URL, secondCommit, firstCommit);
