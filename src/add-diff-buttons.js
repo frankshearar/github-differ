@@ -42,13 +42,43 @@ function addCheckbox(commitLinkNode, ref, floatLeft) {
     commitLinkNode.insertBefore(container, commitLinkNode.lastChild);
 }
 
+function uniq(strs) {
+    var known = {}, result = [],
+        // avoid hasOwnProperty BS:
+        munge = function(name) { return "~" + name; };
+    for (var i = 0; i < strs.length; i++) {
+        if (! known[munge(strs[i])]) {
+            result.push(strs[i]);
+            known[munge(strs[i])] = true;
+        }
+    }
+    return result;
+}
+
+function getSelectedCommits() {
+    var checkboxes = document.getElementsByClassName('commit-selector'),
+        checked = Array.prototype.filter.call(
+                      checkboxes,
+                      function(n) {
+                          return n.children[0].checked;
+                      }),
+        ids = Array.prototype.map.call(checked,
+                  function(n) {
+                      return n.children[0].value;
+                  });
+    return uniq(ids);
+}
+
+function propagateChecked(name, checked) {
+    var checkboxes = document.getElementsByName(name);
+    Array.prototype.map.call(checkboxes, function(n) { n.checked = checked });
+}
+
 function compareDiffs(event) {
+    propagateChecked(event.currentTarget.name,
+                     event.currentTarget.checked);
     if (event.currentTarget.checked) {
-        var filter = Array.prototype.filter;
-        var selectedDiffs = filter.call(document.getElementsByClassName('commit-selector'),
-                                        function(node) {
-                                            return node.children[0].checked
-                                        });
+        var selectedDiffs = getSelectedCommits();
         if (selectedDiffs.length == 2) {
             var firstCommit = selectedDiffs[0].children[0].value;
             var secondCommit = selectedDiffs[1].children[0].value;
