@@ -6,10 +6,10 @@
   "content_scripts": [
     {
       "matches": [
-          "https://github.com/*/commits",
-          "https://github.com/*/pull/*",
-          "https://github.com/*/commits/*",
-          "https://github.com/*/compare/*"
+          "https://*.github.com/*/commits",
+          "https://*.github.com/*/pull/*",
+          "https://*.github.com/*/commits/*",
+          "https://*.github.com/*/compare/*"
       ],
       "js": ["src/add-diff-buttons.js"]
     }
